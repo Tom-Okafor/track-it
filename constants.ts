@@ -140,3 +140,19 @@ export const authPageInfoGroup: AuthPageGroupType = {
     link: { linkText: "Resend it", linkAlignment: "right" },
   },
 };
+
+interface PlaceholderTimeCardType {
+  weekDay: string;
+  day: string;
+  current: boolean;
+}
+
+export const placeholderTimeLineCardInfo: PlaceholderTimeCardType[] = [
+  { weekDay: "Sun", day: "13", current: false },
+  { weekDay: "Mon", day: "14", current: true },
+  { weekDay: "Tue", day: "15", current: false },
+  { weekDay: "Wed", day: "16", current: false },
+  { weekDay: "Thu", day: "17", current: false },
+  { weekDay: "Fri", day: "18", current: false },
+  { weekDay: "Sat", day: "19", current: false },
+];
