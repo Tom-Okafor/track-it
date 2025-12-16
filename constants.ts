@@ -125,7 +125,7 @@ export const authPageInfoGroup: AuthPageGroupType = {
         placeholder: "Confirm Password",
         label: "Re-enter Password",
         isPasswordInput: true,
-        name: "confirm password",
+        name: "confirmPassword",
       },
     ],
     buttonText: "Sign Up",

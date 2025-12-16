@@ -2,7 +2,7 @@ import { colors } from "@/constants";
 import { scaleFontSize } from "@/utils";
 import Feather from "@expo/vector-icons/Feather";
 import { useState } from "react";
-import { Pressable, StyleSheet, TextInput, View } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { AuthInputLabel } from "./auth-input-label";
 
 export function AuthInput({
@@ -12,6 +12,7 @@ export function AuthInput({
   value,
   changeValue,
   name,
+  error,
 }: {
   isPasswordInput: boolean;
   labelText: string;
@@ -19,37 +20,53 @@ export function AuthInput({
   value: { [key: string]: string };
   name: string;
   changeValue: (name: string, value: string) => void;
+  error: string | null;
 }) {
   const [secureText, setSecureText] = useState<boolean>(true);
   const [inputVal, setVal] = useState(value[name]);
   return (
-    <View style={styles.container}>
-      <AuthInputLabel text={labelText} style={styles.label} />
-      <TextInput
-        placeholder={placeholderText}
-        placeholderTextColor={colors.darkGrayText}
-        style={styles.input}
-        value={inputVal}
-        onChangeText={(text) => {
-          changeValue(name, text);
-          setVal(text);
-        }}
-        secureTextEntry={isPasswordInput ? secureText : false}
-      />
-      {isPasswordInput && (
-        <Pressable onPress={() => setSecureText((prev) => !prev)} style={{marginRight: 10}}>
-          {secureText ? (
-            <Feather name="eye" size={16} color={colors.primary} />
-          ) : (
-            <Feather name="eye-off" size={16} color={colors.primary} />
-          )}
-        </Pressable>
-      )}
+    <View style={styles.generalContainer}>
+      <View style={styles.container}>
+        <AuthInputLabel text={labelText} style={styles.label} />
+        <TextInput
+          placeholder={placeholderText}
+          placeholderTextColor={colors.darkGrayText}
+          style={styles.input}
+          value={value[name]}
+          onChangeText={(text) => {
+            changeValue(name, text);
+            setVal(text);
+          }}
+          secureTextEntry={isPasswordInput ? secureText : false}
+        />
+        {isPasswordInput && (
+          <Pressable
+            onPress={() => setSecureText((prev) => !prev)}
+            style={{ marginRight: 10 }}
+          >
+            {secureText ? (
+              <Feather name="eye" size={16} color={colors.primary} />
+            ) : (
+              <Feather name="eye-off" size={16} color={colors.primary} />
+            )}
+          </Pressable>
+        )}
+      </View>
+      {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  generalContainer: {
+    width: "100%",
+    gap: 2,
+  },
+  errorText: {
+    fontFamily: "Poppins-Bold",
+    fontSize: scaleFontSize(12),
+    color: colors.notification,
+  },
   container: {
     width: "100%",
     height: 51,

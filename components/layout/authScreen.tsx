@@ -23,11 +23,15 @@ export function AuthScreen({
   value,
   changeValue,
   onPress,
+  errors,
+  disabled,
 }: {
   pageInfo: AuthPageInfo;
   value?: { [key: string]: string };
   changeValue?: (name: string, value: string) => void;
   onPress?: () => void;
+  errors: { [key: string]: string | null };
+  disabled: boolean;
 }) {
   const { title, subTitle, inputBlockType, inputBlocks, buttonText, link } =
     pageInfo;
@@ -36,51 +40,52 @@ export function AuthScreen({
       <BackButton />
       <ScrollView
         style={styles.formWrapper}
-        showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.formWrapper}
+        showsVerticalScrollIndicator={false}
       >
-        <AuthHeadText text={title} />
-        <View style={styles.subTitleBlock}>
-          {subTitle.map((item, index) => (
-            <AuthSubText key={index} text={item} />
-          ))}
-        </View>
-
-        {inputBlockType === "verify" && (
-          <View style={styles.verifyBlock}>
-            <BoldVerificationText />
-            <NumberVerificationBlock />
+        <View>
+          <AuthHeadText text={title} />
+          <View style={styles.subTitleBlock}>
+            {subTitle.map((item, index) => (
+              <AuthSubText key={index} text={item} />
+            ))}
           </View>
-        )}
-        {inputBlocks && inputBlocks.length > 0 && value && changeValue && (
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={styles.inputBlock}
-          >
-            {inputBlocks.map(
-              ({ isPasswordInput, label, placeholder, name }, index) => (
-                <AuthInput
-                  key={index}
-                  isPasswordInput={isPasswordInput}
-                  placeholderText={placeholder}
-                  labelText={label}
-                  name={name}
-                  value={value}
-                  changeValue={changeValue}
-                />
-              )
-            )}
-          </KeyboardAvoidingView>
-        )}
-        {link && (
-          <AuthLink
-            text={link.linkText}
-            style={{ textAlign: link.linkAlignment }}
-          />
-        )}
-
+          {inputBlockType === "verify" && (
+            <View style={styles.verifyBlock}>
+              <BoldVerificationText />
+              <NumberVerificationBlock />
+            </View>
+          )}
+          {inputBlocks && inputBlocks.length > 0 && value && changeValue && (
+            <KeyboardAvoidingView
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
+              style={styles.inputBlock}
+            >
+              {inputBlocks.map(
+                ({ isPasswordInput, label, placeholder, name }, index) => (
+                  <AuthInput
+                    key={index}
+                    isPasswordInput={isPasswordInput}
+                    placeholderText={placeholder}
+                    labelText={label}
+                    name={name}
+                    value={value}
+                    changeValue={changeValue}
+                    error={errors[name]}
+                  />
+                )
+              )}
+            </KeyboardAvoidingView>
+          )}
+          {link && (
+            <AuthLink
+              text={link.linkText}
+              style={{ textAlign: link.linkAlignment }}
+            />
+          )}
+        </View>
         <View style={styles.btnFooter}>
-          <Button btnText={buttonText} onPress={onPress} />
+          <Button btnText={buttonText} onPress={onPress} disabled={disabled} />
           <FooterText />
         </View>
       </ScrollView>
@@ -97,7 +102,8 @@ const styles = StyleSheet.create({
   },
   formWrapper: {
     width: "100%",
-    flex: 1,
+    flexGrow: 1,
+    gap: scaleVerticalSpacing(80)
   },
   subTitleBlock: {
     gap: 4,
@@ -113,8 +119,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: scaleVerticalSpacing(32),
   },
+
   btnFooter: {
-    marginTop: "auto",
+    marginTop: 'auto',
     gap: scaleVerticalSpacing(37),
     alignItems: "center",
     width: "100%",

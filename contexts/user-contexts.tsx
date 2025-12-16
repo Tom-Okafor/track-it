@@ -1,5 +1,4 @@
 import { account } from "@/lib/appwrite";
-import { router } from "expo-router";
 import {
   createContext,
   ReactNode,
@@ -8,12 +7,19 @@ import {
   useState,
 } from "react";
 import { ID, Models } from "react-native-appwrite";
-
+interface AuthResultType {
+  response: Models.User | string;
+  success: boolean;
+}
 interface UserContextType {
   current: Models.User | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<AuthResultType>;
   logout: () => Promise<void>;
-  signup: (email: string, password: string, name: string) => Promise<void>;
+  signup: (
+    email: string,
+    password: string,
+    name: string
+  ) => Promise<AuthResultType>;
   isLoginIn: boolean;
 }
 
@@ -32,29 +38,39 @@ export function UserProvider({ children }: { children: ReactNode }) {
       });
       const loggedIn = await account.get();
       setUser(loggedIn);
-      router.push("/(tabs)");
+      return { response: loggedIn, success: true };
     } catch (error) {
-      console.log(error);
+      if (error instanceof Error)
+        return { response: error.message, success: false };
+      return { response: "Login Unsuccessful", success: false };
     }
   }
 
   async function logout() {
-    await account.deleteSession({ sessionId: "current" });
-    setUser(null);
+    try {
+      await account.deleteSession({ sessionId: "current" });
+    } finally {
+      setUser(null);
+    }
   }
 
   async function signup(email: string, password: string, name: string) {
     try {
-      await account.create({
+      const userSignUp = await account.create({
         userId: ID.unique(),
         email,
         password,
         name,
       });
-      await login(email, password);
+      const loginResult = await login(email, password);
+      if (!loginResult.success) {
+        return loginResult;
+      }
+      return { response: userSignUp, success: true };
     } catch (error) {
-      console.log(error);
-      setUser(null);
+      if (error instanceof Error)
+        return { response: error.message, success: false };
+      return { response: "Login Unsuccessful", success: false };
     }
   }
 

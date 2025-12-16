@@ -11,7 +11,7 @@ export default function Index() {
     if (!isLoginIn && current) {
       router.replace("/(tabs)");
     } else if (!isLoginIn && !current) {
-      router.replace("/login");
+      router.replace("/signup");
     }
   }, [isLoginIn, current]);
   return (
