@@ -1,6 +1,12 @@
 import { AuthPageInfo } from "@/constants";
 import { scaleVerticalSpacing } from "@/utils";
-import {  ScrollView, StyleSheet, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 import { AuthHeadText } from "../ui/auth-head-text";
 import { AuthInput } from "../ui/auth-input";
 import { AuthLink } from "../ui/auth-link";
@@ -18,7 +24,11 @@ export function AuthScreen({ pageInfo }: { pageInfo: AuthPageInfo }) {
   return (
     <Wrapper style={styles.container}>
       <BackButton />
-      <ScrollView style={styles.formWrapper} showsVerticalScrollIndicator={false} contentContainerStyle={styles.formWrapper}>
+      <ScrollView
+        style={styles.formWrapper}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.formWrapper}
+      >
         <AuthHeadText text={title} />
         <View style={styles.subTitleBlock}>
           {subTitle.map((item, index) => (
@@ -33,7 +43,10 @@ export function AuthScreen({ pageInfo }: { pageInfo: AuthPageInfo }) {
           </View>
         )}
         {inputBlocks && inputBlocks.length > 0 && (
-          <View style={styles.inputBlock}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.inputBlock}
+          >
             {inputBlocks.map(
               ({ isPasswordInput, label, placeholder }, index) => (
                 <AuthInput
@@ -44,7 +57,7 @@ export function AuthScreen({ pageInfo }: { pageInfo: AuthPageInfo }) {
                 />
               )
             )}
-          </View>
+          </KeyboardAvoidingView>
         )}
         {link && (
           <AuthLink
@@ -52,11 +65,11 @@ export function AuthScreen({ pageInfo }: { pageInfo: AuthPageInfo }) {
             style={{ textAlign: link.linkAlignment }}
           />
         )}
-        
-      <View style={styles.btnFooter}>
-        <Button btnText={buttonText} />
-        <FooterText />
-      </View>
+
+        <View style={styles.btnFooter}>
+          <Button btnText={buttonText} />
+          <FooterText />
+        </View>
       </ScrollView>
     </Wrapper>
   );
@@ -71,7 +84,7 @@ const styles = StyleSheet.create({
   },
   formWrapper: {
     width: "100%",
-    flex: 1
+    flex: 1,
   },
   subTitleBlock: {
     gap: 4,
@@ -85,12 +98,12 @@ const styles = StyleSheet.create({
     gap: 16,
     width: "100%",
     marginBottom: 10,
-    marginTop: scaleVerticalSpacing(32)
+    marginTop: scaleVerticalSpacing(32),
   },
   btnFooter: {
     marginTop: "auto",
     gap: scaleVerticalSpacing(37),
     alignItems: "center",
-    width: '100%'
+    width: "100%",
   },
 });
