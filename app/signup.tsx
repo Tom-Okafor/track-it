@@ -89,7 +89,7 @@ export default function SignUp() {
         onPress={() =>
           handleSignup(
             formState.email,
-            formState.name,
+            formState.fullname,
             formState.password,
             formState.confirmPassword
           )
