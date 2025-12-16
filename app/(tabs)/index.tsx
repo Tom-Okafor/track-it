@@ -1,4 +1,5 @@
 import { HomePageHeader } from "@/components/layout/home-page-header";
+import { Timeline } from "@/components/layout/timeline";
 import { Wrapper } from "@/components/layout/wrapper";
 import { AttendanceDetailCard } from "@/components/ui/attendance-detail-card";
 import { MonthSelect } from "@/components/ui/month-select";
@@ -33,6 +34,7 @@ export default function HomeScreen() {
         />
         <AttendanceDetailCard cardTitle="Delay" value="7" source={delay_icon} />
       </View>
+      <Timeline />
     </Wrapper>
   );
 }
