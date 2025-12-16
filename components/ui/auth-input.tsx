@@ -9,12 +9,19 @@ export function AuthInput({
   isPasswordInput,
   labelText,
   placeholderText,
+  value,
+  changeValue,
+  name,
 }: {
   isPasswordInput: boolean;
   labelText: string;
   placeholderText: string;
+  value: { [key: string]: string };
+  name: string;
+  changeValue: (name: string, value: string) => void;
 }) {
   const [secureText, setSecureText] = useState<boolean>(true);
+  const [inputVal, setVal] = useState(value[name]);
   return (
     <View style={styles.container}>
       <AuthInputLabel text={labelText} style={styles.label} />
@@ -22,10 +29,15 @@ export function AuthInput({
         placeholder={placeholderText}
         placeholderTextColor={colors.darkGrayText}
         style={styles.input}
+        value={inputVal}
+        onChangeText={(text) => {
+          changeValue(name, text);
+          setVal(text);
+        }}
         secureTextEntry={isPasswordInput ? secureText : false}
       />
       {isPasswordInput && (
-        <Pressable onPress={() => setSecureText((prev) => !prev)}>
+        <Pressable onPress={() => setSecureText((prev) => !prev)} style={{marginRight: 10}}>
           {secureText ? (
             <Feather name="eye" size={16} color={colors.primary} />
           ) : (

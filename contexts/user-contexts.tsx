@@ -1,4 +1,5 @@
 import { account } from "@/lib/appwrite";
+import { router } from "expo-router";
 import {
   createContext,
   ReactNode,
@@ -8,22 +9,33 @@ import {
 } from "react";
 import { ID, Models } from "react-native-appwrite";
 
-const UserContext = createContext({});
-
-export function useUserContext() {
-  const context = useContext(UserContext);
-  return context;
+interface UserContextType {
+  current: Models.User | null;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  signup: (email: string, password: string, name: string) => Promise<void>;
+  isLoginIn: boolean;
 }
+
+export const UserContext = createContext<UserContextType | undefined>(
+  undefined
+);
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<Models.User | null>(null);
+  const [isLoginIn, setIsLoginIn] = useState<boolean>(true);
   async function login(email: string, password: string) {
-    await account.createEmailPasswordSession({
-      email,
-      password,
-    });
-    const loggedIn = await account.get();
-    setUser(loggedIn);
+    try {
+      await account.createEmailPasswordSession({
+        email,
+        password,
+      });
+      const loggedIn = await account.get();
+      setUser(loggedIn);
+      router.push("/(tabs)");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async function logout() {
@@ -31,12 +43,13 @@ export function UserProvider({ children }: { children: ReactNode }) {
     setUser(null);
   }
 
-  async function signup(email: string, password: string) {
+  async function signup(email: string, password: string, name: string) {
     try {
       await account.create({
         userId: ID.unique(),
-        email: email,
-        password: password,
+        email,
+        password,
+        name,
       });
       await login(email, password);
     } catch (error) {
@@ -49,8 +62,10 @@ export function UserProvider({ children }: { children: ReactNode }) {
     try {
       const loggedIn = await account.get();
       setUser(loggedIn);
-    } catch (error) {
+    } catch {
       setUser(null);
+    } finally {
+      setIsLoginIn(false);
     }
   }
 
@@ -59,8 +74,18 @@ export function UserProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <UserContext.Provider value={{ current: user, login, logout, signup }}>
+    <UserContext.Provider
+      value={{ current: user, login, logout, signup, isLoginIn }}
+    >
       {children}
     </UserContext.Provider>
   );
+}
+
+export function useUserContext() {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error("useUserContext must be used within a UserProvider");
+  }
+  return context;
 }

@@ -1,3 +1,5 @@
+import { InputProvider } from "@/contexts/input-context";
+import { UserProvider } from "@/contexts/user-contexts";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -14,8 +16,12 @@ export default function RootLayout() {
   });
   useEffect(() => {
     if (loaded || error) SplashScreen.hideAsync();
-  }, [loaded, error]);
+  }, [loaded, error]); 
   if (!loaded && !error) return null;
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <UserProvider>
+      <Stack screenOptions={{ headerShown: false }} />
+    </UserProvider>
+  );
 }

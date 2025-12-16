@@ -18,7 +18,17 @@ import { FooterText } from "../ui/footer-text";
 import { NumberVerificationBlock } from "../ui/number-verification-block";
 import { Wrapper } from "./wrapper";
 
-export function AuthScreen({ pageInfo }: { pageInfo: AuthPageInfo }) {
+export function AuthScreen({
+  pageInfo,
+  value,
+  changeValue,
+  onPress,
+}: {
+  pageInfo: AuthPageInfo;
+  value?: { [key: string]: string };
+  changeValue?: (name: string, value: string) => void;
+  onPress?: () => void;
+}) {
   const { title, subTitle, inputBlockType, inputBlocks, buttonText, link } =
     pageInfo;
   return (
@@ -42,18 +52,21 @@ export function AuthScreen({ pageInfo }: { pageInfo: AuthPageInfo }) {
             <NumberVerificationBlock />
           </View>
         )}
-        {inputBlocks && inputBlocks.length > 0 && (
+        {inputBlocks && inputBlocks.length > 0 && value && changeValue && (
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.inputBlock}
           >
             {inputBlocks.map(
-              ({ isPasswordInput, label, placeholder }, index) => (
+              ({ isPasswordInput, label, placeholder, name }, index) => (
                 <AuthInput
                   key={index}
                   isPasswordInput={isPasswordInput}
                   placeholderText={placeholder}
                   labelText={label}
+                  name={name}
+                  value={value}
+                  changeValue={changeValue}
                 />
               )
             )}
@@ -67,7 +80,7 @@ export function AuthScreen({ pageInfo }: { pageInfo: AuthPageInfo }) {
         )}
 
         <View style={styles.btnFooter}>
-          <Button btnText={buttonText} />
+          <Button btnText={buttonText} onPress={onPress} />
           <FooterText />
         </View>
       </ScrollView>
