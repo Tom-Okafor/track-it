@@ -9,6 +9,7 @@ export const colors = {
   white: "#FFF",
   black: "#000",
   notification: "#FF8888",
+  primaryFaded: "#5B2EFF1A",
 };
 
 interface InputBlocks {
