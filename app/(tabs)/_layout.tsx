@@ -71,6 +71,26 @@ export default function TabsLayout() {
           tabBarIcon: ({ focused }) =>
             focused ? (
               <Image
+                source={request_filled}
+                style={{ height: 20, width: 20 }}
+                contentFit="contain"
+              />
+            ) : (
+              <Image
+                source={request}
+                style={{ height: 20, width: 20 }}
+                contentFit="contain"
+              />
+            ),
+        }}
+      />
+      <Tabs.Screen
+        name="request"
+        options={{
+          title: "Request",
+          tabBarIcon: ({ focused }) =>
+            focused ? (
+              <Image
                 source={calendar_filled}
                 style={{ height: 20, width: 20 }}
                 contentFit="contain"
