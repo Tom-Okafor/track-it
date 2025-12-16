@@ -6,6 +6,9 @@ export const colors = {
   authBorderBlue: "#5B2EFF80",
   placeholderGray: "#888888CC",
   backgroundGray: "#F2F2F2",
+  white: "#FFF",
+  black: "#000",
+  notification: "#FF8888",
 };
 
 interface InputBlocks {
