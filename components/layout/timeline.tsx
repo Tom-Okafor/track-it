@@ -13,7 +13,7 @@ export function Timeline() {
 
 const styles = StyleSheet.create({
   container: {
-    gap: 24,
+    gap: 20,
     width: "100%",
     alignItems: "center",
   },
