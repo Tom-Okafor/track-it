@@ -1,18 +1,20 @@
 import { colors } from "@/constants";
 import { scaleFontSize } from "@/utils";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ViewStyle } from "react-native";
 
 export function TimelineBlockCard({
   weekDay,
   day,
   current,
+  style,
 }: {
   weekDay: string;
   day: string;
   current: boolean;
+  style?: ViewStyle;
 }) {
   return (
-    <View style={[styles.container, current && styles.current]}>
+    <View style={[styles.container, current && styles.current, style]}>
       <Text style={styles.text}>{weekDay}</Text>
       <Text style={[styles.text, styles.textDark]}>{day}</Text>
     </View>
@@ -28,6 +30,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: colors.white,
+    width: 53,
+    height: 73,
   },
   text: {
     color: colors.primary,
@@ -35,7 +39,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Regular",
   },
   textDark: {
-    fontFamily: "Poppins-Medium",
+    fontFamily: "Poppins-Bold",
   },
   current: {
     backgroundColor: colors.primaryFaded,
