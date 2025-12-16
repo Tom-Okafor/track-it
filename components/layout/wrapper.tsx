@@ -1,3 +1,4 @@
+import { scaleFontSize } from "@/utils";
 import { StyleSheet, TextStyle, View, ViewStyle } from "react-native";
 
 export function Wrapper({
@@ -13,6 +14,6 @@ export function Wrapper({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 40,
+    paddingHorizontal: scaleFontSize(40),
   },
 });
