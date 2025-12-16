@@ -9,7 +9,7 @@ export function AuthHeadText({
   text: string;
   style?: TextStyle;
 }) {
-  return <Text style={[styles.text]}>{text}</Text>;
+  return <Text style={[styles.text, style]}>{text}</Text>;
 }
 
 const styles = StyleSheet.create({
