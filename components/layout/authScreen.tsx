@@ -17,6 +17,7 @@ import { Button } from "../ui/button";
 import { FooterText } from "../ui/footer-text";
 import { NumberVerificationBlock } from "../ui/number-verification-block";
 import { Wrapper } from "./wrapper";
+import { KeyboardAwareScrollView, KeyboardToolbar } from "react-native-keyboard-controller";
 
 export function AuthScreen({
   pageInfo,
@@ -38,7 +39,7 @@ export function AuthScreen({
   return (
     <Wrapper style={styles.container}>
       <BackButton />
-      <ScrollView
+      <KeyboardAwareScrollView
         style={styles.formWrapper}
         contentContainerStyle={styles.formWrapper}
         showsVerticalScrollIndicator={false}
@@ -88,7 +89,7 @@ export function AuthScreen({
           <Button btnText={buttonText} onPress={onPress} disabled={disabled} />
           <FooterText />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </Wrapper>
   );
 }
