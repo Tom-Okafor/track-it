@@ -1,6 +1,12 @@
 import { AuthPageInfo } from "@/constants";
 import { scaleVerticalSpacing } from "@/utils";
-import {  ScrollView, StyleSheet, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  View,
+} from "react-native";
 import { AuthHeadText } from "../ui/auth-head-text";
 import { AuthInput } from "../ui/auth-input";
 import { AuthLink } from "../ui/auth-link";
@@ -11,53 +17,79 @@ import { Button } from "../ui/button";
 import { FooterText } from "../ui/footer-text";
 import { NumberVerificationBlock } from "../ui/number-verification-block";
 import { Wrapper } from "./wrapper";
+import { KeyboardAwareScrollView, KeyboardToolbar } from "react-native-keyboard-controller";
 
-export function AuthScreen({ pageInfo }: { pageInfo: AuthPageInfo }) {
+export function AuthScreen({
+  pageInfo,
+  value,
+  changeValue,
+  onPress,
+  errors,
+  disabled,
+}: {
+  pageInfo: AuthPageInfo;
+  value?: { [key: string]: string };
+  changeValue?: (name: string, value: string) => void;
+  onPress?: () => void;
+  errors: { [key: string]: string | null };
+  disabled: boolean;
+}) {
   const { title, subTitle, inputBlockType, inputBlocks, buttonText, link } =
     pageInfo;
   return (
     <Wrapper style={styles.container}>
       <BackButton />
-      <ScrollView style={styles.formWrapper} showsVerticalScrollIndicator={false} contentContainerStyle={styles.formWrapper}>
-        <AuthHeadText text={title} />
-        <View style={styles.subTitleBlock}>
-          {subTitle.map((item, index) => (
-            <AuthSubText key={index} text={item} />
-          ))}
+      <KeyboardAwareScrollView
+        style={styles.formWrapper}
+        contentContainerStyle={styles.formWrapper}
+        showsVerticalScrollIndicator={false}
+      >
+        <View>
+          <AuthHeadText text={title} />
+          <View style={styles.subTitleBlock}>
+            {subTitle.map((item, index) => (
+              <AuthSubText key={index} text={item} />
+            ))}
+          </View>
+          {inputBlockType === "verify" && (
+            <View style={styles.verifyBlock}>
+              <BoldVerificationText />
+              <NumberVerificationBlock />
+            </View>
+          )}
+          {inputBlocks && inputBlocks.length > 0 && value && changeValue && (
+            <KeyboardAvoidingView
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
+              style={styles.inputBlock}
+            >
+              {inputBlocks.map(
+                ({ isPasswordInput, label, placeholder, name }, index) => (
+                  <AuthInput
+                    key={index}
+                    isPasswordInput={isPasswordInput}
+                    placeholderText={placeholder}
+                    labelText={label}
+                    name={name}
+                    value={value}
+                    changeValue={changeValue}
+                    error={errors[name]}
+                  />
+                )
+              )}
+            </KeyboardAvoidingView>
+          )}
+          {link && (
+            <AuthLink
+              text={link.linkText}
+              style={{ textAlign: link.linkAlignment }}
+            />
+          )}
         </View>
-
-        {inputBlockType === "verify" && (
-          <View style={styles.verifyBlock}>
-            <BoldVerificationText />
-            <NumberVerificationBlock />
-          </View>
-        )}
-        {inputBlocks && inputBlocks.length > 0 && (
-          <View style={styles.inputBlock}>
-            {inputBlocks.map(
-              ({ isPasswordInput, label, placeholder }, index) => (
-                <AuthInput
-                  key={index}
-                  isPasswordInput={isPasswordInput}
-                  placeholderText={placeholder}
-                  labelText={label}
-                />
-              )
-            )}
-          </View>
-        )}
-        {link && (
-          <AuthLink
-            text={link.linkText}
-            style={{ textAlign: link.linkAlignment }}
-          />
-        )}
-        
-      <View style={styles.btnFooter}>
-        <Button btnText={buttonText} />
-        <FooterText />
-      </View>
-      </ScrollView>
+        <View style={styles.btnFooter}>
+          <Button btnText={buttonText} onPress={onPress} disabled={disabled} />
+          <FooterText />
+        </View>
+      </KeyboardAwareScrollView>
     </Wrapper>
   );
 }
@@ -71,7 +103,8 @@ const styles = StyleSheet.create({
   },
   formWrapper: {
     width: "100%",
-    flex: 1
+    flexGrow: 1,
+    gap: scaleVerticalSpacing(80)
   },
   subTitleBlock: {
     gap: 4,
@@ -85,12 +118,13 @@ const styles = StyleSheet.create({
     gap: 16,
     width: "100%",
     marginBottom: 10,
-    marginTop: scaleVerticalSpacing(32)
+    marginTop: scaleVerticalSpacing(32),
   },
+
   btnFooter: {
-    marginTop: "auto",
+    marginTop: 'auto',
     gap: scaleVerticalSpacing(37),
     alignItems: "center",
-    width: '100%'
+    width: "100%",
   },
 });

@@ -2,9 +2,21 @@ import { colors } from "@/constants";
 import { scaleVerticalSpacing } from "@/utils";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-export function Button({ btnText }: { btnText: string }) {
+export function Button({
+  btnText,
+  onPress,
+  disabled,
+}: {
+  btnText: string;
+  onPress?: () => void;
+  disabled: boolean;
+}) {
   return (
-    <TouchableOpacity style={styles.touchable}>
+    <TouchableOpacity
+      style={[styles.touchable, { opacity: disabled ? 0.4 : 1 }]}
+      onPress={onPress}
+      disabled={disabled}
+    >
       <Text style={styles.text}>{btnText}</Text>
     </TouchableOpacity>
   );
@@ -25,6 +37,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 15,
     fontWeight: 500,
-    fontFamily: 'Poppins-Medium'
+    fontFamily: "Poppins-Medium",
   },
 });

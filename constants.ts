@@ -6,12 +6,17 @@ export const colors = {
   authBorderBlue: "#5B2EFF80",
   placeholderGray: "#888888CC",
   backgroundGray: "#F2F2F2",
+  white: "#FFF",
+  black: "#000",
+  notification: "#FF8888",
+  primaryFaded: "#5B2EFF1A",
 };
 
 interface InputBlocks {
   placeholder: string;
   label: string;
   isPasswordInput: boolean;
+  name: string;
 }
 export interface AuthPageInfo {
   title: string;
@@ -39,11 +44,13 @@ export const authPageInfoGroup: AuthPageGroupType = {
         placeholder: "Username/Email",
         label: "Username/Email",
         isPasswordInput: false,
+        name: "email",
       },
       {
         placeholder: "Password",
         label: "Password",
         isPasswordInput: true,
+        name: "password",
       },
     ],
     link: { linkText: "Forgotten Password?", linkAlignment: "left" },
@@ -69,11 +76,13 @@ export const authPageInfoGroup: AuthPageGroupType = {
         placeholder: "New Password",
         label: "Enter New Password",
         isPasswordInput: true,
+        name: "password",
       },
       {
         placeholder: "Re-enter Password",
         label: "Confirm Password",
         isPasswordInput: true,
+        name: "confirm password",
       },
     ],
     buttonText: "Continue",
@@ -83,27 +92,41 @@ export const authPageInfoGroup: AuthPageGroupType = {
     title: "Sign Up",
     subTitle: ["Create your account", "Get Started with Track-in"],
     inputBlocks: [
-      { placeholder: "Full Name", label: "Full Name", isPasswordInput: false },
+      {
+        placeholder: "Full Name",
+        label: "Full Name",
+        isPasswordInput: false,
+        name: "fullname",
+      },
       {
         placeholder: "Phone Number",
         label: "Phone Number",
         isPasswordInput: false,
+        name: "phone",
       },
       {
         placeholder: "Email Address",
         label: "Email Address",
         isPasswordInput: false,
+        name: "email",
       },
       {
         placeholder: "Organization/Institution",
         label: "Organization/Institution",
         isPasswordInput: false,
+        name: "institution",
       },
-      { placeholder: "Password", label: "Password", isPasswordInput: true },
+      {
+        placeholder: "Password",
+        label: "Password",
+        isPasswordInput: true,
+        name: "password",
+      },
       {
         placeholder: "Confirm Password",
         label: "Re-enter Password",
         isPasswordInput: true,
+        name: "confirmPassword",
       },
     ],
     buttonText: "Sign Up",
