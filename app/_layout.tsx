@@ -1,9 +1,9 @@
-import { InputProvider } from "@/contexts/input-context";
 import { UserProvider } from "@/contexts/user-contexts";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -16,12 +16,14 @@ export default function RootLayout() {
   });
   useEffect(() => {
     if (loaded || error) SplashScreen.hideAsync();
-  }, [loaded, error]); 
+  }, [loaded, error]);
   if (!loaded && !error) return null;
 
   return (
     <UserProvider>
-      <Stack screenOptions={{ headerShown: false }} />
+      <KeyboardProvider>
+        <Stack screenOptions={{ headerShown: false }} />
+      </KeyboardProvider>
     </UserProvider>
   );
 }
