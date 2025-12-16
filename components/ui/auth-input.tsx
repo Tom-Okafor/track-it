@@ -1,7 +1,8 @@
 import { colors } from "@/constants";
 import { scaleFontSize } from "@/utils";
 import Feather from "@expo/vector-icons/Feather";
-import { StyleSheet, TextInput, View } from "react-native";
+import { useState } from "react";
+import { Pressable, StyleSheet, TextInput, View } from "react-native";
 import { AuthInputLabel } from "./auth-input-label";
 
 export function AuthInput({
@@ -13,6 +14,7 @@ export function AuthInput({
   labelText: string;
   placeholderText: string;
 }) {
+  const [secureText, setSecureText] = useState<boolean>(true);
   return (
     <View style={styles.container}>
       <AuthInputLabel text={labelText} style={styles.label} />
@@ -20,9 +22,16 @@ export function AuthInput({
         placeholder={placeholderText}
         placeholderTextColor={colors.darkGrayText}
         style={styles.input}
+        secureTextEntry={isPasswordInput ? secureText : false}
       />
       {isPasswordInput && (
-        <Feather name="eye" size={14} color={colors.primary} />
+        <Pressable onPress={() => setSecureText((prev) => !prev)}>
+          {secureText ? (
+            <Feather name="eye" size={16} color={colors.primary} />
+          ) : (
+            <Feather name="eye-off" size={16} color={colors.primary} />
+          )}
+        </Pressable>
       )}
     </View>
   );
@@ -45,7 +54,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: scaleFontSize(12),
     fontWeight: 500,
-    color: '#000',
+    color: "#000",
     justifyContent: "center",
     alignItems: "center",
     display: "flex",
