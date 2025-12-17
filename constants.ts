@@ -10,6 +10,7 @@ export const colors = {
   black: "#000",
   notification: "#FF8888",
   primaryFaded: "#5B2EFF1A",
+  primary_150: "#5B2EFF26",
 };
 
 interface InputBlocks {
@@ -141,7 +142,7 @@ export const authPageInfoGroup: AuthPageGroupType = {
   },
 };
 
-interface PlaceholderTimeCardType {
+export interface PlaceholderTimeCardType {
   weekDay: string;
   day: string;
   current: boolean;
@@ -155,4 +156,12 @@ export const placeholderTimeLineCardInfo: PlaceholderTimeCardType[] = [
   { weekDay: "Thu", day: "17", current: false },
   { weekDay: "Fri", day: "18", current: false },
   { weekDay: "Sat", day: "19", current: false },
+];
+
+export const checkInPlaceholderDates: PlaceholderTimeCardType[] = [
+  { weekDay: "Sun", day: "13", current: false },
+  { weekDay: "Mon", day: "14", current: true },
+  { weekDay: "Tue", day: "15", current: false },
+  { weekDay: "Wed", day: "16", current: false },
+  { weekDay: "Thu", day: "17", current: false },
 ];
