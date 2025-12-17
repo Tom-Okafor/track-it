@@ -1,12 +1,13 @@
+import { placeholderTimeLineCardInfo } from "@/constants";
 import { StyleSheet, View } from "react-native";
 import { TimelineHeader } from "../ui/timeline-header";
-import { TimelineBlock } from "../ui/timeline-block";
+import { TimelineBlock } from "./timeline-block";
 
 export function Timeline() {
   return (
     <View style={styles.container}>
       <TimelineHeader />
-      <TimelineBlock />
+      <TimelineBlock dateInfo={placeholderTimeLineCardInfo} />
     </View>
   );
 }
@@ -16,5 +17,6 @@ const styles = StyleSheet.create({
     gap: 20,
     width: "100%",
     alignItems: "center",
+    flex: 1,
   },
 });
