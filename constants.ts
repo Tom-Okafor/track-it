@@ -26,6 +26,7 @@ export interface AuthPageInfo {
   inputBlocks?: InputBlocks[];
   link?: { linkText: string; linkAlignment: "left" | "right" };
   buttonText: string;
+  optionText?: boolean;
 }
 
 interface AuthPageGroupType {
@@ -56,6 +57,7 @@ export const authPageInfoGroup: AuthPageGroupType = {
     ],
     link: { linkText: "Forgotten Password?", linkAlignment: "left" },
     buttonText: "Login",
+    optionText: true,
   },
 
   forgotPasswordPage: {
@@ -131,6 +133,8 @@ export const authPageInfoGroup: AuthPageGroupType = {
       },
     ],
     buttonText: "Sign Up",
+
+    optionText: true,
   },
 
   verifyAccountPage: {

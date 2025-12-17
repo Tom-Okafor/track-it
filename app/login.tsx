@@ -37,19 +37,6 @@ export default function Login() {
         updateErrors("email", "Please input a valid email");
         errorCount++;
       }
-      // if (password.length < 8) {
-      //   updateErrors(
-      //     "password",
-      //     "Your password must be at least 8 characters long"
-      //   );
-      //   errorCount++;
-      // } else if (!passwordRegex.test(password)) {
-      //   updateErrors(
-      //     "password",
-      //     "Your password must contain an uppercase letter, a lowercase letter, a digit and a special character"
-      //   );
-      //   errorCount++;
-      // }
 
       if (!errorCount) {
         const userLogin = await login(email, password);

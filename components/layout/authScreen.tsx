@@ -1,12 +1,14 @@
-import { AuthPageInfo } from "@/constants";
-import { scaleVerticalSpacing } from "@/utils";
+import { AuthPageInfo, colors } from "@/constants";
+import { scaleFontSize, scaleVerticalSpacing } from "@/utils";
+import { Link } from "expo-router";
 import {
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
   StyleSheet,
+  Text,
   View,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { AuthHeadText } from "../ui/auth-head-text";
 import { AuthInput } from "../ui/auth-input";
 import { AuthLink } from "../ui/auth-link";
@@ -17,7 +19,6 @@ import { Button } from "../ui/button";
 import { FooterText } from "../ui/footer-text";
 import { NumberVerificationBlock } from "../ui/number-verification-block";
 import { Wrapper } from "./wrapper";
-import { KeyboardAwareScrollView, KeyboardToolbar } from "react-native-keyboard-controller";
 
 export function AuthScreen({
   pageInfo,
@@ -34,8 +35,15 @@ export function AuthScreen({
   errors: { [key: string]: string | null };
   disabled: boolean;
 }) {
-  const { title, subTitle, inputBlockType, inputBlocks, buttonText, link } =
-    pageInfo;
+  const {
+    title,
+    subTitle,
+    inputBlockType,
+    inputBlocks,
+    buttonText,
+    link,
+    optionText,
+  } = pageInfo;
   return (
     <Wrapper style={styles.container}>
       <BackButton />
@@ -87,6 +95,23 @@ export function AuthScreen({
         </View>
         <View style={styles.btnFooter}>
           <Button btnText={buttonText} onPress={onPress} disabled={disabled} />
+          {optionText && title.toLowerCase() === "login" ? (
+            <View style={styles.optionTextBlock}>
+              <Text style={styles.optionText}>Don't Have an Account?</Text>
+              <Link href="/signup">
+                <Text style={styles.optionLink}>Sign Up</Text>
+              </Link>
+            </View>
+          ) : (
+            title.toLowerCase() === "sign up" && (
+              <View style={styles.optionTextBlock}>
+                <Text style={styles.optionText}>Already Have an Account?</Text>
+                <Link href="/login">
+                  <Text style={styles.optionLink}>Login</Text>
+                </Link>
+              </View>
+            )
+          )}
           <FooterText />
         </View>
       </KeyboardAwareScrollView>
@@ -104,7 +129,7 @@ const styles = StyleSheet.create({
   formWrapper: {
     width: "100%",
     flexGrow: 1,
-    gap: scaleVerticalSpacing(80)
+    gap: scaleVerticalSpacing(80),
   },
   subTitleBlock: {
     gap: 4,
@@ -122,9 +147,27 @@ const styles = StyleSheet.create({
   },
 
   btnFooter: {
-    marginTop: 'auto',
-    gap: scaleVerticalSpacing(37),
+    marginTop: "auto",
+    gap: 2,
     alignItems: "center",
     width: "100%",
+  },
+  optionTextBlock: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 2,
+    marginBottom: scaleVerticalSpacing(37),
+  },
+  optionText: {
+    fontSize: scaleFontSize(10),
+    color: colors.black,
+    fontFamily: "Poppins-SemiBold",
+  },
+  optionLink: {
+    fontSize: scaleFontSize(10),
+    color: colors.primary,
+    textDecorationLine: "underline",
+    textDecorationColor: colors.primary,
+    fontFamily: "Poppins-SemiBold",
   },
 });
