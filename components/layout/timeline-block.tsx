@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
   cardBlock: {
     flexDirection: "row",
-    rowGap: 50,
+    rowGap: 14,
     columnGap: 45,
     flexWrap: "wrap",
     width: "100%",

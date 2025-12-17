@@ -20,6 +20,7 @@ export default function Attendance() {
         detail2="8:42 am"
         detail3="6:02 pm"
         detail4="9 Hrs"
+        key={i}
       >
         <Ionicons name="briefcase-outline" size={10} color="black" />
       </AttendanceDetails>
