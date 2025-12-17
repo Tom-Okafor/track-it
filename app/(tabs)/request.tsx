@@ -1,30 +1,18 @@
-import { CheckInAddress } from "@/components/layout/check-in-address";
-import { CheckInDetails } from "@/components/layout/check-in-details";
-import { TimelineBlock } from "@/components/layout/timeline-block";
-import { Button } from "@/components/ui/button";
-import { checkInPlaceholderDates } from "@/constants";
+import { Wrapper } from "@/components/layout/wrapper";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text } from "react-native";
 
 export default function RequestScreen() {
   return (
-    <View
-      style={{
-        justifyContent: "center",
-        alignItems: "center",
-        flex: 1,
-        paddingHorizontal: 40,
-      }}
-    >
-      <Button btnText="Test screen" disabled={false} />
-      <TimelineBlock
-        dateInfo={checkInPlaceholderDates}
-        style={{ flexGrow: 0 }}
-      />
-      <CheckInAddress />
-      <CheckInDetails />
-    </View>
+    <Wrapper style={styles.container}>
+      <Text>Test</Text>
+    </Wrapper>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
