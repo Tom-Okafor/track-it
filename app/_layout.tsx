@@ -13,6 +13,7 @@ export default function RootLayout() {
     "Poppins-Regular": require("@/assets/fonts/Poppins/Poppins-Regular.ttf"),
     "Poppins-Bold": require("@/assets/fonts/Poppins/Poppins-Bold.ttf"),
     "Poppins-Light": require("@/assets/fonts/Poppins/Poppins-Light.ttf"),
+    "Poppins-SemiBold": require("@/assets/fonts/Poppins/Poppins-SemiBold.ttf"),
   });
   useEffect(() => {
     if (loaded || error) SplashScreen.hideAsync();
